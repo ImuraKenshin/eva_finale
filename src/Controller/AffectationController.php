@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class AffectationController extends AbstractController
 {
-    #[Route('/liste/affectation', name: 'app_affectation')]
+    #[Route('/gestion/affectation', name: 'app_affectation')]
     public function index(): Response
     {
         return $this->render('affectation/index.html.twig', [

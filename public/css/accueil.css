@@ -1,0 +1,21 @@
+.accueil_gestion{
+    gap: 25px;
+    justify-content: space-around;
+}
+.liste_accueil{
+    list-style: initial;
+}
+.lien_accueil{
+    width: 40%;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 25px;
+}
+.lien_accueil h2{
+    margin-bottom: 25px;
+}
+.liste_accueil li{
+    margin-left: 40px;
+}

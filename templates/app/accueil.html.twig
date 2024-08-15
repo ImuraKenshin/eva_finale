@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil gestionnaire Wacdo{% endblock %}
+
+{% block metadescription %}
+
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="{{asset('css/accueil.css')}}">
+    
+{% endblock %}
+    
+{% endblock %}
+
+{% block body %}
+
+    <div class="container accueil_gestion flex">
+        <a class="lien_accueil flex" href="{{path('app_restaurant')}}">
+            <div class="lien_gestion">
+                <h2>Gestion des restaurants</h2>
+                <div class="lien_content">
+                    <ul class="liste_accueil">
+                        <li>Liste des restaurants</li>
+                        <li>Profil du restaurant</li>
+                        <li>Ajout d'un restaurant</li>
+                        <li>Affectation du restaurant</li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+
+        <a class="lien_accueil flex" href="{{path('app_collaborateur')}}">
+            <div class="lien_gestion">
+                <h2>Gestion des Collaborateurs</h2>
+                <div class="lien_content">
+                    <ul class="liste_accueil">
+                        <li>Liste des collaborateurs</li>
+                        <li>Profil collaborateur</li>
+                        <li>Ajout d'un nouveau collaborateurs</li>
+                        <li>Collaborateurs sans affectation</li>
+                        <li>Affecter un collaborateur sur un nouveau poste</li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+
+        <a class="lien_accueil flex" href="{{path('app_affectation')}}">
+            <div class="lien_gestion">
+                <h2>Gestion des affectations</h2>
+                <div class="lien_content">
+                    <ul class="liste_accueil">
+                        <li>Liste des affectations</li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+
+        <a class="lien_accueil flex" href="{{path('app_fonction')}}">
+            <div class="lien_gestion">
+                <h2>Gestion des Postes</h2>
+                <div class="lien_content">
+                    <ul class="liste_accueil">
+                        <li>Liste des postes</li>
+                        <li>Modification des postes</li>
+                        <li>Creation d'un nouveau poste</li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+    
+    </div>
+
+{% endblock %}

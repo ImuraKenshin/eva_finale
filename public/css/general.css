@@ -1,0 +1,12 @@
+a{
+    text-decoration: none;
+    color: black;
+}
+.container{
+    max-width: 1450px;
+    margin: 0 auto;
+}
+.flex{
+    display: flex;
+    flex-wrap: wrap;
+}
