@@ -36,25 +36,35 @@ class CollaborateurRepository extends ServiceEntityRepository implements Passwor
     //    /**
     //     * @return Collaborateur[] Returns an array of Collaborateur objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        public function listAll(): array
+        {
+            return $this->createQueryBuilder('c')
+                ->orderBy('c.nom', 'ASC')
+                ->orderBy('c.prenom','ASC')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
 
-    //    public function findOneBySomeField($value): ?Collaborateur
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        public function searchCollaborateur($search): array
+        {
+            return $this->createQueryBuilder('c')
+                ->andWhere('c.nom like :search')
+                ->orWhere('c.prenom like :search')
+                ->orWhere('c.mail like :search')
+                ->setParameter('search', $search)
+                ->getQuery()
+                ->getResult()
+                ;
+        }
+
+        public function detailCollaborateur($id){
+            return $this->createQueryBuilder('c')
+                ->andwhere('c.id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getOneOrNullResult()
+                ;
+        }
+        
 }
