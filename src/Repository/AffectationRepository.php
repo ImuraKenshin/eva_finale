@@ -25,5 +25,56 @@ class AffectationRepository extends ServiceEntityRepository
             ;
     }
 
-    
+    public function affectationRestaurant($restaurant): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.restaurant = :restaurant')
+            ->andWhere('a.fin = ""')
+            ->setParameter('restaurant', $restaurant)
+            ->orderBy('a.debut','DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function historiqueRestaurant($restaurant): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.restaurant = :restaurant')
+            ->setParameter('restaurant', $restaurant)
+            ->orderBy('a.debut','DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function filtrePoste($poste): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.poste = :poste')
+            ->setParameter('poste', $poste)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function filtreDateDebut($debut): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.debut = :debut')
+            ->setParameter('debut', $debut)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function filtreDateFin($fin): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.fin = :fin')
+            ->setParameter('fin', $fin)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
