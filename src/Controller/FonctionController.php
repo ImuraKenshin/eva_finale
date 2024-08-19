@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\FonctionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FonctionController extends AbstractController
 {
     #[Route('/gestion/fonction', name: 'app_fonction')]
-    public function index(): Response
+    public function index(FonctionRepository $FonctionRepository): Response
     {
-        return $this->render('fonction/index.html.twig', [
-            'controller_name' => 'FonctionController',
+        $fonctions = $FonctionRepository->ListeAll();
+
+        return $this->render('fonction/listeFonction.html.twig', [
+            'fonctions' => $fonctions,
         ]);
     }
 

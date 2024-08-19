@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Affectations Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Poste</th>
+                    <th>Restaurant</th>
+                    <th>Ville</th>
+                    <th>Date de début</th>
+                    <th>Date de Fin</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                {% for affectation in affectations %}
+                    <tr>
+                        <td> {{affectation.collaborateur.nom}} </td>
+                        <td> {{affectation.collaborateur.prenom}} </td>
+                        <td> {{affectation.fonction.libelle}} </td>
+                        <td> {{affectation.restaurant.nom}} </td>
+                        <td> {{affectation.restaurant.ville}} </td>
+                        <td> {{affectation.debut | date('d/m/Y')}} </td>
+                        <td> {% if affectation.fin == "" %} En cours {% else %} {{affectation.fin | date('d/m/Y')}} {% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

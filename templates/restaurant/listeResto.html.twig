@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des restaurants Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<div class="form_recherche_restaurant container">
+    <form action=" {{path('app_restaurant')}} " method="post" class="flex">
+        <input type="search" name="search" id="search">
+        <input type="submit" value="rechercher">
+    </form>
+</div>
+
+<div class="list_collab container">
+    <table>
+        <thead>
+            <tr>
+                <th>Dénomination</th>
+                <th>Adresse</th>
+                <th>Code postal</th>
+                <th>ville</th>
+                <th>En activité</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% include "restaurant/_tBodyListe.html.twig" %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

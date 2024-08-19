@@ -225,4 +225,16 @@ class Collaborateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function isService(): ?bool
+    {
+        return $this->service;
+    }
+
+    public function setService(bool $service): static
+    {
+        $this->service = $service;
+
+        return $this;
+    }
 }

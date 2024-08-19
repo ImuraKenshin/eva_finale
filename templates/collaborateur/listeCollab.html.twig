@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des collaborateurs Wacdo{% endblock %}
+
+{% block metadescription %}
+{% endblock %}
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="{{asset('css/listeCollab.css')}}">
+    
+{% endblock %}
+
+{% block body %}
+
+<div class="form_recherche_collab container">
+    <form action=" {{path('app_collaborateur')}} " method="post" class="flex">
+        <input type="search" name="search" id="search">
+        <input type="submit" value="rechercher">
+    </form>
+</div>
+
+<div class="list_collab container">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Mail</th>
+                <th>Date d'embauche</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% include "collaborateur/_tBodyListe.html.twig" %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

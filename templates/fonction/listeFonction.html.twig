@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des postes Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Libellé</th>
+                    <th>Edition</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                {% for fonction in fonctions %}
+                    <tr>
+                        <td> {{fonction.libelle}} </td>
+                        <td><a href="">Editer</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

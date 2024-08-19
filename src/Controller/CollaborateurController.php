@@ -2,17 +2,27 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\CollaborateurRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CollaborateurController extends AbstractController
 {
     #[Route('/gestion/personnel', name: 'app_collaborateur')]
-    public function index(): Response
+    public function index(Request $request,CollaborateurRepository $CollaborateurRepository): Response
     {
-        return $this->render('collaborateur/index.html.twig', [
-            'controller_name' => 'CollaborateurController',
+        if ($request->isMethod("POST")) {
+            $search = $request->request->get("search");
+            $collaborateurs = $CollaborateurRepository->searchCollaborateur($search);
+        }
+        else {
+            $collaborateurs = $CollaborateurRepository->listAll();
+        }
+
+        return $this->render('collaborateur/listeCollab.html.twig', [
+            'collaborateurs' => $collaborateurs,
         ]);
     }
 

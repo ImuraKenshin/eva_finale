@@ -25,7 +25,7 @@ class FonctionRepository extends ServiceEntityRepository
             ;
     }
 
-    public function fingOne($id)
+    public function findOne($id)
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.id = :id')

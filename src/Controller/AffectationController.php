@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\AffectationRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AffectationController extends AbstractController
 {
     #[Route('/gestion/affectation', name: 'app_affectation')]
-    public function index(): Response
+    public function index(AffectationRepository $AffectationRepository): Response
     {
-        return $this->render('affectation/index.html.twig', [
-            'controller_name' => 'AffectationController',
+        $affectations = $AffectationRepository->ListAll();
+
+        return $this->render('affectation/listeAffect.html.twig', [
+            'affectations' => $affectations,
         ]);
     }
 

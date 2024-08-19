@@ -49,10 +49,10 @@ class CollaborateurRepository extends ServiceEntityRepository implements Passwor
         public function searchCollaborateur($search): array
         {
             return $this->createQueryBuilder('c')
-                ->andWhere('c.nom like :search')
+                ->Where('c.nom like :search')
                 ->orWhere('c.prenom like :search')
                 ->orWhere('c.mail like :search')
-                ->setParameter('search', $search)
+                ->setParameter('search', "%".$search."%")
                 ->getQuery()
                 ->getResult()
                 ;

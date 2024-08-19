@@ -1,0 +1,11 @@
+
+
+{% for restaurant in restaurants %}
+    <tr>
+        <td>{{restaurant.nom}}</td>
+        <td>{{restaurant.adresse}}</td>
+        <td>{{restaurant.codePostal}}</td>
+        <td>{{restaurant.ville}}</td>
+        <td>{{restaurant.etat | actif}}</td>
+    </tr>
+{% endfor %}

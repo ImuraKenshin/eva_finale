@@ -26,11 +26,21 @@ class RestaurantRepository extends ServiceEntityRepository
             ;
     }
 
-    public function FilterBy($ville): array
+    public function FilterByVille($ville): array
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.ville = :ville')
             ->setParameter('ville', $ville)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function FilterByEtat($etat): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.etat = :etat')
+            ->setParameter('etat', $etat)
             ->getQuery()
             ->getResult()
             ;
@@ -41,7 +51,8 @@ class RestaurantRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('r')
             ->andWhere('r.nom like :search')
             ->orWhere('r.ville like :search')
-            ->setParameter('search', $search)
+            ->orWhere('r.code_postal like :search')
+            ->setParameter('search', "%".$search."%")
             ->getQuery()
             ->getResult()
             ;

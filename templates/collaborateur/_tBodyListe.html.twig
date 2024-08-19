@@ -1,0 +1,10 @@
+
+
+{% for collaborateur in collaborateurs %}
+    <tr>
+        <td>{{collaborateur.nom}}</td>
+        <td>{{collaborateur.prenom}}</td>
+        <td>{{collaborateur.mail}}</td>
+        <td>{{collaborateur.dateEmbauche | date('d/m/Y')}}</td>
+    </tr>
+{% endfor %}
