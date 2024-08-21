@@ -29,7 +29,6 @@ class AffectationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->where('a.restaurant = :restaurant')
-            ->andWhere('a.fin = ""')
             ->setParameter('restaurant', $restaurant)
             ->orderBy('a.debut','DESC')
             ->getQuery()
@@ -37,21 +36,80 @@ class AffectationRepository extends ServiceEntityRepository
             ;
     }
 
-    public function historiqueRestaurant($restaurant): array
+    public function filtreRestaurantPoste($restaurant,$poste):array
     {
         return $this->createQueryBuilder('a')
             ->where('a.restaurant = :restaurant')
+            ->andWhere('a.fonction = :poste')
             ->setParameter('restaurant', $restaurant)
-            ->orderBy('a.debut','DESC')
+            ->setParameter('poste', $poste)
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function filtreRestaurantDebut($restaurant,$debut):array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.restaurant = :restaurant')
+            ->andWhere('a.debut = :debut')
+            ->setParameter('restaurant', $restaurant)
+            ->setParameter('debut', $debut)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function affectationCollaborateur($collaborateur):array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.collaborateur = :collaborateur')
+            ->setParameter('collaborateur', $collaborateur)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function dateCollaborateur($collaborateur):array
+    {
+        return $this->createQueryBuilder('a')
+            ->select('DISTINCT a.debut')
+            ->andWhere('a.collaborateur = :collaborateur')
+            ->setParameter('collaborateur', $collaborateur)
+            ->orderBy('a.debut', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function filtreCollaborateurPoste($collaborateur, $poste):array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.collaborateur = :collaborateur')
+            ->andWhere('a.fonction = :poste')
+            ->setParameter('collaborateur', $collaborateur)
+            ->setParameter('poste', $poste)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function filtreCollaborateurDebut($collaborateur, $debut):array
+    {
+        return $this->createQueryBuilder('a')
+        ->where('a.collaborateur = :collaborateur')
+        ->andWhere('a.debut = :debut')
+        ->setParameter('collaborateur', $collaborateur)
+        ->setParameter('debut', $debut)
+        ->getQuery()
+        ->getResult()
+        ;
     }
 
     public function filtrePoste($poste): array
     {
         return $this->createQueryBuilder('a')
-            ->where('a.poste = :poste')
+            ->where('a.fonction = :poste')
             ->setParameter('poste', $poste)
             ->getQuery()
             ->getResult()
@@ -76,5 +134,39 @@ class AffectationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function listDate():array
+    {
+        return $this->createQueryBuilder('a')
+        ->select('DISTINCT a.debut')
+        ->andWhere('a.fin IS NULL')
+        ->orderBy('a.debut', 'DESC')
+        ->getQuery()
+        ->getResult()
+        ;
+
+    }
+
+    public function listDebut():array
+    {
+        return $this->createQueryBuilder('a')
+        ->select('DISTINCT a.debut')
+        ->orderBy('a.debut', 'DESC')
+        ->getQuery()
+        ->getResult()
+        ;
+
+    }
+    
+    public function listFin():array
+    {
+        return $this->createQueryBuilder('a')
+        ->select('DISTINCT a.fin')
+        ->orderBy('a.fin', 'DESC')
+        ->getQuery()
+        ->getResult()
+        ;
+
     }
 }

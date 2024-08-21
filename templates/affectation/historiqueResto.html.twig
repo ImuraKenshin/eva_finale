@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des affectations du restaurant Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+{% for affectation in affectations %}
+
+    <p>{{affectation.collaborateur.nom}}</p>
+    <p>{{affectation.fonction.libelle}}</p>
+    
+{% endfor %}
+    
+{% endblock %}

@@ -6,5 +6,6 @@
         <td>{{collaborateur.prenom}}</td>
         <td>{{collaborateur.mail}}</td>
         <td>{{collaborateur.dateEmbauche | date('d/m/Y')}}</td>
+        <td><a href="{{path('detail_collaborateur', {'id' : collaborateur.id})}}">svg profil</a></td>
     </tr>
 {% endfor %}

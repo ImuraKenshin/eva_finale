@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du restaurant Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<div class="form_filtre_restaurant container flex">
+    <form action="{{path('filtre_poste_restaurant',{'id' : restaurant.id})}}" method="post" class="flex">
+        <select name="filtre" id="">
+            <option value="All">Tous les postes</option>
+            {% for poste in postes %}
+                <option value="{{poste.id}}">{{poste.libelle}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="✅">
+    </form>
+    <form action="{{path('filtre_debut_restaurant',{'id' : restaurant.id})}}" method="post" class="flex">
+        <select name="filtre" id="">
+            <option value="All">Toutes les dates</option>
+            {% for date in dates %}
+                <option value="{{date.debut | date('Y-m-d')}}">{{date.debut | date('d/m/Y')}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="✅">
+    </form>
+</div>
+
+<div class="bouton_historique container">
+    <a href=" {{path('affectation_restaurant', {'id' : restaurant.id})}} "><button>Historique des affectations du restaurant</button></a>
+</div>
+
+<div class="detail-restaurant container">
+    <p> {{restaurant.nom}} </p>
+</div>
+
+<div class="collab_restaurant container">
+    {% for affectation in affectations %}
+        {% if affectation.fin == "" %}<p> {{affectation.collaborateur.nom}} </p> {% endif %}
+        
+        
+    {% endfor %}
+</div>
+    
+{% endblock %}

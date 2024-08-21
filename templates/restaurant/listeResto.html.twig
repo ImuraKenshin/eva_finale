@@ -19,6 +19,18 @@
     </form>
 </div>
 
+<div class="form_filtre_restaurant container">
+    <form action="{{path('app_filtre_restaurant')}}" method="post" class="flex">
+        <select name="filtre" id="filtre">
+            <option value="All">Toutes les villes</option>
+            {% for ville in villes %}
+                <option value="{{ville.ville}}">{{ville.ville}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="✅">
+    </form>
+</div>
+
 <div class="list_collab container">
     <table>
         <thead>
@@ -28,6 +40,7 @@
                 <th>Code postal</th>
                 <th>ville</th>
                 <th>En activité</th>
+                <th>Fiche restaurant</th>
             </tr>
         </thead>
         <tbody>

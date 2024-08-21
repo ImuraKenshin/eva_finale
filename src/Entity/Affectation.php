@@ -26,10 +26,10 @@ class Affectation
     #[ORM\JoinColumn(nullable: false)]
     private ?Fonction $fonction = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'date')]
     private ?\DateTimeInterface $debut = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTimeInterface $fin = null;
 
     public function getId(): ?int
