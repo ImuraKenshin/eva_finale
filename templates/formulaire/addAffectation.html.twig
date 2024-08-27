@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire d'affectation d'un collaborateur Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('app_affectation')}}" title="retour à la liste des affectations"><button>Retour</button></a>
+    </div>
+</header>
+
+<h1>Nouvelle affectation pour le collaborateur</h1>
+    
+    <div class="container">
+        {{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+
+            {{ form_label(form.restaurant) }} <br>
+            {{ form_widget(form.restaurant) }}
+            {{ form_errors(form.restaurant) }}
+            <br><br>
+            {{ form_label(form.fonction) }} <br>
+            {{ form_widget(form.fonction) }}
+            {{ form_errors(form.fonction) }}
+            <br><br>
+            {{ form_label(form.debut) }} <br>
+            {{ form_widget(form.debut) }}
+            {{ form_errors(form.debut) }}
+            <br><br>
+            
+            <br><br>
+            <button type="submit">Affecter le collaborateur</button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

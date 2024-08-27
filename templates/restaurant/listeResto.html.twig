@@ -12,6 +12,18 @@
 
 {% block body %}
 
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('app_app')}}" title="Retour à l'accueil"><button>Retour</button></a>
+    </div>
+</header>
+
+<h1>Liste des restaurants</h1>
+
 <div class="form_recherche_restaurant container">
     <form action=" {{path('app_restaurant')}} " method="post" class="flex">
         <input type="search" name="search" id="search">
@@ -29,6 +41,10 @@
         </select>
         <input type="submit" value="✅">
     </form>
+</div>
+
+<div class="container">
+    <a href="{{path('restaurant_creation')}}" title="Nouveau Restaurant"><button>Créer un nouveau restaurant</button></a>
 </div>
 
 <div class="list_collab container">

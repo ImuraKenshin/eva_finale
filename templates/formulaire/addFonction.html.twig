@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire d'ajout de poste Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('app_fonction')}}" title="Retour à la liste des postes"><button>Retour</button></a>
+    </div>
+</header>
+
+    <h1>Créer un nouveau poste</h1>
+    
+    <div class="container">
+        {{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+
+            {{ form_label(form.libelle) }} <br>
+            {{ form_widget(form.libelle) }}
+            {{ form_errors(form.libelle) }}
+            
+            <button type="submit">Créer le nouveau poste</button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

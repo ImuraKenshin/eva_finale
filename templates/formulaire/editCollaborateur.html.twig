@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire de modification d'un collaborateur Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('detail_collaborateur', {'id' : collaborateur.id})}}" title="Retour au détail du collaborateur"><button>Retour</button></a>
+    </div>
+</header>
+
+    <h1>Modifier le profil du collaborateur</h1>
+    
+    <div class="container">
+        {{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+
+            {{ form_label(form.nom) }} <br>
+            {{ form_widget(form.nom, {'attr': {'readonly': 'readonly'}}) }}
+            {{ form_errors(form.nom) }}
+            <br><br>
+            {{ form_label(form.prenom) }} <br>
+            {{ form_widget(form.prenom, {'attr': {'readonly': 'readonly'}}) }}
+            {{ form_errors(form.prenom) }}
+            <br><br>
+            {{ form_label(form.mail) }} <br>
+            {{ form_widget(form.mail) }}
+            {{ form_errors(form.mail) }}
+            <br><br>
+            {{ form_widget(form.dateEmbauche,{'attr': {'style': 'display:none;'}}) }}
+            
+            <button type="submit">Modifier le collaborateur</button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

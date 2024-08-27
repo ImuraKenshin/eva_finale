@@ -23,8 +23,8 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
-
+                target: app_app
+            access_denied_handler: App\Security\AccessDeniedHandler
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -34,8 +34,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/restaurant, roles: ROLE_SUPER }
+         - { path: ^/fonction, roles: ROLE_DIRECTEUR }
+         - { path: ^/accueil, roles: ROLE_USER }
+         - { path: ^/affectation, roles: ROLE_USER }
+         - { path: ^/collaborateur, roles: ROLE_USER }
 
 when@test:
     security:

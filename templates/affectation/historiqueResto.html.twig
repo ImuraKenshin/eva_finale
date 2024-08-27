@@ -12,11 +12,48 @@
 
 {% block body %}
 
-{% for affectation in affectations %}
 
-    <p>{{affectation.collaborateur.nom}}</p>
-    <p>{{affectation.fonction.libelle}}</p>
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        
+        <a href="{{path('detail_restaurant', {'id' : restaurant.id})}}" title="détail du restaurent"><button>Retour</button></a>
+    </div>
+</header>
+
+    <h1>Historique des affectations du restaurant</h1>
+
+<div class="collab_restaurant container">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Poste</th>
+                <th>Date de début</th>
+                <th>Date de Fin</th>
+                <th>Fiche du collaborateur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for affectation in affectations %}
+                    <tr>
+                    <td> {{affectation.collaborateur.nom}} </td>
+                    <td> {{affectation.collaborateur.prenom}} </td>
+                    <td> {{affectation.fonction.libelle}} </td>
+                    <td> {{affectation.debut | date('d/m/Y')}} </td>
+                    <td> {% if affectation.fin == "" %} En cours {% else %} {{affectation.fin | date('d/m/Y')}} {% endif %}</td>
+                    <td><a href="{{path('detail_collaborateur', {'id' : affectation.collaborateur.id})}}" title="détail du collaborateur">SVG detail</a></td>
+                    </tr>
+            {% endfor %}
+        </tbody>
     
-{% endfor %}
+    </table>
+    
+</div>
     
 {% endblock %}

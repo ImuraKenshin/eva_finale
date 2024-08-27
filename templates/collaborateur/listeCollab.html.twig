@@ -12,6 +12,18 @@
 
 {% block body %}
 
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('app_app')}}" title="Retour à l'accueil"><button>Retour</button></a>
+    </div>
+</header>
+
+<h1>Liste des collaborateurs</h1>
+
 <div class="form_recherche_collab container">
     <form action=" {{path('app_collaborateur')}} " method="post" class="flex">
         <input type="search" name="search" id="search">
@@ -19,8 +31,9 @@
     </form>
 </div>
 
-<div class="lien_non_affecter">
-    <a href="{{path('collaborateur_non_affecter')}}"><button>Employé sans affectation</button></a>
+<div class="lien_non_affecter container">
+    <a href="{{path('collaborateur_non_affecter')}}" title="Liste des employés sans affactation"><button>Employés sans affectation</button></a>
+    <a href="{{path('add_collaborateur')}}" title="Nouveau collaborateur"><button>Nouveau collaborateur</button></a>
 </div>
 
 <div class="list_collab container">

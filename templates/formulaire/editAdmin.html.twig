@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire administrateur Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('detail_collaborateur', {'id' : collaborateur.id})}}" title="Retour au détail du collaborateur"><button>Retour</button></a>
+    </div>
+</header>
+
+    <h1>Nomination du compte en administrateur</h1>
+    
+    <div class="container">
+        {{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+
+            {{ form_label(form.admin) }} <br>
+            {{ form_widget(form.admin) }} 
+            {{ form_errors(form.admin) }}
+            <br><br> <br>
+            {{ form_widget(form.password) }}
+            {{ form_errors(form.password) }}
+            <br><br>
+            
+            <button type="submit">Nommer le collaborateur administrateur</button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

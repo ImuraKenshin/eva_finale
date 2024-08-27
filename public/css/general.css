@@ -2,6 +2,13 @@ a{
     text-decoration: none;
     color: black;
 }
+h1{
+    margin: 80px auto 50px auto;
+    max-width: 1450px;
+}
+.gap15{
+    gap: 15px;
+}
 .container{
     max-width: 1450px;
     margin: 0 auto;
@@ -9,4 +16,20 @@ a{
 .flex{
     display: flex;
     flex-wrap: wrap;
+}
+
+table{
+    border: 3px solid black;
+    border-collapse: collapse;
+    margin: 50px 0;
+}
+
+th{
+    border: 2px solid black;
+    padding: 5px 10px;
+}
+
+td{
+    border-bottom: 1px solid black;
+    padding: 10px 20px;
 }

@@ -7,10 +7,47 @@
 {% endblock %}
 
 {% block stylesheets %}
-    
+    <link rel="stylesheet" href="{{asset('css/detailResto.css')}}">
 {% endblock %}
 
 {% block body %}
+
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('app_restaurant')}}" title="Retour à la liste des restaurants"><button>Retour</button></a>
+    </div>
+</header>
+
+<h1>Fiche du restaurant</h1>
+
+
+
+<div class="bouton_historique container">
+    <a href=" {{path('affectation_restaurant', {'id' : restaurant.id})}} " title="Historique des affectations"><button>Historique des affectations du restaurant</button></a>
+</div>
+
+
+<div class="detail_restaurant container">
+    <p> Nom du restaurant : {{restaurant.nom}} </p>
+    <p> Adresse du restaurant : {{restaurant.adresse}} {{restaurant.codePostal}} {{restaurant.ville}} </p>
+    <p> En Activité : {{restaurant.etat | actif}}</p>
+
+    <div class="bouton_modif_restaurant container">
+    <a href="{{path('restaurant_modif', {'id' : restaurant.id})}}" title="Mettre à jour"><button>Mettre à jour le restaurant</button></a>
+    {% if restaurant.etat == true %}
+        <a href="{{path('restaurant_fermer', {'id' : restaurant.id})}}" title="Fermer le restaurant"><button>Fermer le restaurant</button></a>
+    {% else %}
+        <a href="{{path('restaurant_ouvrir', {'id' : restaurant.id})}}" title="Ouvrir le restaurant"><button>Ouvrir le restaurant</button></a>
+    {% endif %}
+</div>
+</div>
+
+
+
 
 <div class="form_filtre_restaurant container flex">
     <form action="{{path('filtre_poste_restaurant',{'id' : restaurant.id})}}" method="post" class="flex">
@@ -33,20 +70,35 @@
     </form>
 </div>
 
-<div class="bouton_historique container">
-    <a href=" {{path('affectation_restaurant', {'id' : restaurant.id})}} "><button>Historique des affectations du restaurant</button></a>
-</div>
-
-<div class="detail-restaurant container">
-    <p> {{restaurant.nom}} </p>
-</div>
 
 <div class="collab_restaurant container">
-    {% for affectation in affectations %}
-        {% if affectation.fin == "" %}<p> {{affectation.collaborateur.nom}} </p> {% endif %}
-        
-        
-    {% endfor %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Poste</th>
+                <th>Date de début</th>
+                <th>Fiche du collaborateur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for affectation in affectations %}
+                {% if affectation.fin == "" %}
+                    <tr>
+                    <td> {{affectation.collaborateur.nom}} </td>
+                    <td> {{affectation.collaborateur.prenom}} </td>
+                    <td> {{affectation.fonction.libelle}} </td>
+                    <td> {{affectation.debut | date('d/m/Y')}} </td>
+                    <td><a href="{{path('detail_collaborateur', {'id' : affectation.collaborateur.id})}}" title="Détail du collaborateur">SVG detail</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    
+    </table>
+    
 </div>
     
 {% endblock %}

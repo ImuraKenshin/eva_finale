@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire d'ajout d'un restaurant Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('app_restaurant')}}" title="Retour à la liste des restaurants"><button>Retour</button></a>
+    </div>
+</header>
+
+    <h1>Ajouter un nouveau restaurant</h1>
+    
+    <div class="container">
+        {{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+
+            {{ form_label(form.nom) }} <br>
+            {{ form_widget(form.nom) }}
+            {{ form_errors(form.nom) }}
+            <br><br>
+            {{ form_label(form.adresse) }} <br>
+            {{ form_widget(form.adresse) }}
+            {{ form_errors(form.adresse) }}
+            <br><br>
+            {{ form_label(form.codePostal) }} <br>
+            {{ form_widget(form.codePostal) }}
+            {{ form_errors(form.codePostal) }}
+            <br><br>
+            {{ form_label(form.ville) }} <br>
+            {{ form_widget(form.ville) }}
+            {{ form_errors(form.ville) }}
+            <br><br>
+            
+            <br><br>
+            <button type="submit">Créer le nouveau restaurant</button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

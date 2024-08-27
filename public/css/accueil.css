@@ -1,6 +1,8 @@
 .accueil_gestion{
     gap: 25px;
     justify-content: space-around;
+    margin-top: 60px !important;
+    margin-bottom: 25px !important;
 }
 .liste_accueil{
     list-style: initial;

@@ -7,6 +7,6 @@
         <td>{{restaurant.codePostal}}</td>
         <td>{{restaurant.ville}}</td>
         <td>{{restaurant.etat | actif}}</td>
-        <td><a href=" {{path('detail_restaurant', {'id' : restaurant.id})}} ">svg detail</a></td>
+        <td><a href=" {{path('detail_restaurant', {'id' : restaurant.id})}} " title="Détail du restaurant">svg detail</a></td>
     </tr>
 {% endfor %}

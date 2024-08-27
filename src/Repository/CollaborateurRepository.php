@@ -46,6 +46,17 @@ class CollaborateurRepository extends ServiceEntityRepository implements Passwor
             ;
         }
 
+        public function listAllActif(): array
+        {
+            return $this->createQueryBuilder('c')
+                ->Where('c.etat = 1')
+                ->orderBy('c.nom', 'ASC')
+                ->orderBy('c.prenom','ASC')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+
         public function searchCollaborateur($search): array
         {
             return $this->createQueryBuilder('c')

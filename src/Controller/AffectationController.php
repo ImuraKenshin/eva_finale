@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Restaurant;
+use App\Entity\Affectation;
+use App\Entity\Collaborateur;
+use App\form\AffectationType;
 use App\Repository\FonctionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AffectationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AffectationController extends AbstractController
 {
-    #[Route('/gestion/affectation', name: 'app_affectation')]
+    #[Route('/affectation/gestion', name: 'app_affectation')]
     public function index(AffectationRepository $AffectationRepository, FonctionRepository $FonctionRepository): Response
     {
         $affectations = $AffectationRepository->ListAll();
@@ -28,7 +32,7 @@ class AffectationController extends AbstractController
         ]);
     }
 
-    #[Route('/gestion/affectation/filtre/poste', name: 'filtre_poste_affectation')]
+    #[Route('/affectation/gestion/filtre/poste', name: 'filtre_poste_affectation')]
     public function FiltrePoste(Request $request, AffectationRepository $AffectationRepository, FonctionRepository $FonctionRepository): Response
     {
         
@@ -52,7 +56,7 @@ class AffectationController extends AbstractController
         ]);
     }
 
-    #[Route('/gestion/affectation/filtre/debut', name: 'filtre_debut_affectation')]
+    #[Route('/affectation/gestion/filtre/debut', name: 'filtre_debut_affectation')]
     public function FiltreDebut(Request $request, AffectationRepository $AffectationRepository, FonctionRepository $FonctionRepository): Response
     {
         if($request->request->get("filtre") == "All"){
@@ -75,7 +79,7 @@ class AffectationController extends AbstractController
         ]);
     }
 
-    #[Route('/gestion/affectation/filtre/fin', name: 'filtre_fin_affectation')]
+    #[Route('/affectation/gestion/filtre/fin', name: 'filtre_fin_affectation')]
     public function FiltreFin(Request $request, AffectationRepository $AffectationRepository, FonctionRepository $FonctionRepository): Response
     {
         if($request->request->get("filtre") == "All"){
@@ -105,22 +109,43 @@ class AffectationController extends AbstractController
 
         return $this->render('affectation/historiqueResto.html.twig', [
             'affectations' => $affectations,
+            'restaurant' => $restaurant,
         ]);
     }
 
-    #[Route('/formulaire/affectation/collaborateur/{id}', name: 'affectation_collaborateur')]
-    public function affectationCollaborateur(): Response
+    #[Route('/affectation/formulaire/collaborateur/{id}', name: 'affectation_collaborateur')]
+    public function affectationCollaborateur(Collaborateur $collaborateur,Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('affectation/index.html.twig', [
-            'controller_name' => 'AffectationController',
+        $affectation = new Affectation();
+        
+        $form = $this->createForm(AffectationType::class, $affectation);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $affectation->setCollaborateur($collaborateur);
+            $em->persist($affectation);
+            $em->flush();
+            
+            return $this->redirectToRoute("detail_collaborateur", ['id' => $collaborateur->getId()] );
+        }
+
+        return $this->render('formulaire/addAffectation.html.twig', [
+            'form' => $form,
+            'collaborateur' => $collaborateur,
         ]);
+
     }
 
-    #[Route('/formulaire/affectation/collaborateur/restaurant/{id}', name: 'affectation_collaborateur_restaurant')]
-    public function affectationCollaborateurRestaurant(): Response
+    #[Route('/affectation/fin/affectation/{id}', name: 'fin_affectation_collaborateur')]
+    public function finAffectationCollaborateur(Affectation $affectation, EntityManagerInterface $em): Response
     {
-        return $this->render('affectation/index.html.twig', [
-            'controller_name' => 'AffectationController',
-        ]);
+
+        $jour = new \DateTime();
+
+        $affectation->setFin($jour);
+        $em->flush();
+        
+        return $this->redirectToRoute("detail_collaborateur", ['id' => $affectation->getCollaborateur()->getId()] );
+
     }
 }

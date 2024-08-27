@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire d'ajout d'un collaborateur Wacdo{% endblock %}
+
+{% block metadescription %}
+    
+{% endblock %}
+
+{% block stylesheets %}
+    
+{% endblock %}
+
+{% block body %}
+
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('app_collaborateur')}}" title="retour à la liste des collaborateurs"><button>Retour</button></a>
+    </div>
+</header>
+    
+    <h1>Nouveau collaborateur</h1>
+    
+    <div class="container">
+        {{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+
+            {{ form_label(form.nom) }} <br>
+            {{ form_widget(form.nom) }}
+            {{ form_errors(form.nom) }}
+            <br><br>
+            {{ form_label(form.prenom) }} <br>
+            {{ form_widget(form.prenom) }}
+            {{ form_errors(form.prenom) }}
+            <br><br>
+            {{ form_label(form.mail) }} <br>
+            {{ form_widget(form.mail) }}
+            {{ form_errors(form.mail) }}
+            <br><br>
+            {{ form_label(form.dateEmbauche) }} <br>
+            {{ form_widget(form.dateEmbauche) }}
+            {{ form_errors(form.dateEmbauche) }}
+            <br><br>
+            
+            <br><br>
+            <button type="submit">Créer le nouveau collaborateur</button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

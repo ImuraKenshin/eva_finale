@@ -163,6 +163,7 @@ class AffectationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
         ->select('DISTINCT a.fin')
+        ->andWhere('a.fin IS NOT NULL')
         ->orderBy('a.fin', 'DESC')
         ->getQuery()
         ->getResult()

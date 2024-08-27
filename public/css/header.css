@@ -1,0 +1,15 @@
+header{
+    position: fixed;
+    top: 0;
+    height: 50px;
+    padding: 0 25px;
+    border-bottom: 2px solid black;
+    width: 100%;
+    align-items: center;
+    background-color: white;
+}
+
+.logo_wacdo{
+    justify-content: space-between;
+    width: 100%;
+}

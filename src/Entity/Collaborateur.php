@@ -41,7 +41,7 @@ class Collaborateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 500)]
     private ?string $mail = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: 'date')]
     private ?\DateTimeInterface $dateEmbauche = null;
 
     #[ORM\Column]

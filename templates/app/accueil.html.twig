@@ -14,6 +14,16 @@
 
 {% block body %}
 
+<header class="flex">
+    <div class="logo_wacdo flex container">
+        <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+        <a href="{{path('app_app')}}" title="Retour"><button>Retour</button></a>
+    </div>
+</header>
+
     <div class="container accueil_gestion flex">
         <a class="lien_accueil flex" href="{{path('app_restaurant')}}">
             <div class="lien_gestion">

@@ -21,7 +21,7 @@ class Restaurant
     #[ORM\Column(length: 500)]
     private ?string $adresse = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 6)]
     private ?string $codePostal = null;
 
     #[ORM\Column(length: 500)]

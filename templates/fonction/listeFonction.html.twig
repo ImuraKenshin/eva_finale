@@ -11,6 +11,23 @@
 {% endblock %}
 
 {% block body %}
+
+    <header class="flex">
+        <div class="logo_wacdo flex container">
+            <div>
+            <img src="{{asset('images/logo.png')}}" alt="logo wacdo">
+            <a href="{{path('app_logout')}}" title="déconnexion"><button>Se déconnecter</button></a>
+        </div>
+            <a href="{{path('app_app')}}"><button>Retour</button></a>
+        </div>
+    </header>
+
+    <h1>Liste des postes</h1>
+
+    <div class="container">
+        <a href="{{path('fonction_creation')}}" title="Ajouter un poste"><button>Ajouter un nouveau poste</button></a>
+    </div>
+
     <div class="container">
         <table>
             <thead>
@@ -24,7 +41,7 @@
                 {% for fonction in fonctions %}
                     <tr>
                         <td> {{fonction.libelle}} </td>
-                        <td><a href="">Editer</a></td>
+                        <td><a href="{{path('fonction_edition', {'id' : fonction.id})}}" title="Editer le poste">Editer</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Fonction;
+use App\form\FonctionType;
 use App\Repository\FonctionRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FonctionController extends AbstractController
 {
-    #[Route('/gestion/fonction', name: 'app_fonction')]
+    #[Route('/fonction/gestion', name: 'app_fonction')]
     public function index(FonctionRepository $FonctionRepository): Response
     {
         $fonctions = $FonctionRepository->ListeAll();
@@ -20,18 +24,40 @@ class FonctionController extends AbstractController
     }
 
     #[Route('/fonction/edition/{id}', name: 'fonction_edition')]
-    public function editionFonction(): Response
+    public function editionFonction(Fonction $fonction, Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('fonction/index.html.twig', [
-            'controller_name' => 'FonctionController',
+
+        $form = $this->createForm(FonctionType::class, $fonction);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em->flush();
+            
+            return $this->redirectToRoute("app_fonction");
+        }
+
+        return $this->render('formulaire/editFonction.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/fonction/creation', name: 'fonction_creation')]
-    public function creationFonction(): Response
+    public function creationFonction(Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('fonction/index.html.twig', [
-            'controller_name' => 'FonctionController',
+        $fonction = new Fonction();
+
+        $form = $this->createForm(FonctionType::class, $fonction);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em->persist($fonction);
+            $em->flush();
+            
+            return $this->redirectToRoute("app_fonction");
+        }
+
+        return $this->render('formulaire/addFonction.html.twig', [
+            'form' => $form,
         ]);
     }
 }

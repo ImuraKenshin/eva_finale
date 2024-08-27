@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\form\AdminType;
 use App\Entity\Collaborateur;
+use App\form\CollaborateurType;
 use App\Repository\FonctionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AffectationRepository;
 use App\Repository\CollaborateurRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CollaborateurController extends AbstractController
 {
-    #[Route('/gestion/personnel', name: 'app_collaborateur')]
+    #[Route('/personnel', name: 'app_collaborateur')]
     public function index(Request $request,CollaborateurRepository $CollaborateurRepository): Response
     {
         if ($request->isMethod("POST")) {
@@ -29,12 +32,95 @@ class CollaborateurController extends AbstractController
         ]);
     }
 
-    #[Route('/nouveau/personnel', name: 'add_collaborateur')]
-    public function addCollaborateur(): Response
+    #[Route('/personnel/nouveau', name: 'add_collaborateur')]
+    public function addCollaborateur(Request $request, EntityManagerInterface $em): Response
     {
-        return $this->render('collaborateur/index.html.twig', [
-            'controller_name' => 'CollaborateurController',
+        $collaborateur = new Collaborateur();
+
+        $form = $this->createForm(CollaborateurType::class, $collaborateur);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $collaborateur->setRoles([]);
+            $collaborateur->setEtat(true);
+            $collaborateur->setAdmin(false);
+            $collaborateur->setPassword("");
+            $em->persist($collaborateur);
+            $em->flush();
+            
+            return $this->redirectToRoute("app_collaborateur");
+        }
+
+        return $this->render('formulaire/addCollaborateur.html.twig', [
+            'form' => $form,
         ]);
+    }
+
+    #[Route('/personnel/modification/{id}', name: 'edit_collaborateur')]
+    public function editCollaborateur(Collaborateur $collaborateur, Request $request, EntityManagerInterface $em): Response
+    {
+
+        $form = $this->createForm(CollaborateurType::class, $collaborateur);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em->flush();
+            
+            return $this->redirectToRoute("detail_collaborateur", ['id' => $collaborateur->getId()] );
+        }
+
+        return $this->render('formulaire/editCollaborateur.html.twig', [
+            'form' => $form->createView(),
+            'collaborateur' => $collaborateur,
+        ]);
+    }
+
+    #[Route('/personnel/admin/{id}', name: 'edit_admin')]
+    public function editAdmin(Collaborateur $collaborateur, Request $request, EntityManagerInterface $em): Response
+    {
+
+        $form = $this->createForm(AdminType::class, $collaborateur);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $collaborateur->setRoles(["ROLE_USER","ROLE_DIRECTEUR"]);
+            $em->flush();
+            
+            return $this->redirectToRoute("detail_collaborateur", ['id' => $collaborateur->getId()] );
+        }
+
+        return $this->render('formulaire/editAdmin.html.twig', [
+            'form' => $form,
+            'collaborateur' => $collaborateur,
+        ]);
+    }
+
+    #[Route('/personnel/admin/retrait/{id}', name: 'retrait_admin')]
+    public function retraitAdmin(Collaborateur $collaborateur, EntityManagerInterface $em): Response
+    {
+        $collaborateur->setAdmin(false);
+        $collaborateur->setPassword("");
+        $em->flush();
+
+        return $this->redirectToRoute("detail_collaborateur", ['id' => $collaborateur->getId()] );
+    }
+
+    #[Route('/personnel/admin/fin/contrat/{id}', name: 'fin_contrat')]
+    public function finContrat(Collaborateur $collaborateur, EntityManagerInterface $em): Response
+    {
+        $collaborateur->setEtat(false);
+        $em->flush();
+
+        return $this->redirectToRoute("detail_collaborateur", ['id' => $collaborateur->getId()] );
+    }
+
+    #[Route('/personnel/admin/ouvrir/contrat/{id}', name: 'ouvrir_contrat')]
+    public function ouvrirContrat(Collaborateur $collaborateur, EntityManagerInterface $em): Response
+    {
+        $collaborateur->setEtat(true);
+        $em->flush();
+
+        return $this->redirectToRoute("detail_collaborateur", ['id' => $collaborateur->getId()] );
     }
 
     #[Route('/personnel/non/affecter', name: 'collaborateur_non_affecter')]
@@ -42,7 +128,7 @@ class CollaborateurController extends AbstractController
     {
         $liste = [];
 
-        $collaborateurs = $CollaborateurRepository->listAll();
+        $collaborateurs = $CollaborateurRepository->listAllActif();
 
         foreach ($collaborateurs as $collaborateur) {
             // je récupère les affectations du collaborateur et les transforme en une liste
@@ -76,10 +162,23 @@ class CollaborateurController extends AbstractController
         ]);
     }
 
-    #[Route('/detail/personnel/{id}', name: 'detail_collaborateur')]
+    #[Route('/personnel/detail/{id}', name: 'detail_collaborateur')]
     public function detailCollaborateur(AffectationRepository $AffectationRepository, FonctionRepository $FonctionRepository, Collaborateur $collaborateur): Response
     {
         $affectations = $AffectationRepository->affectationCollaborateur($collaborateur);
+
+        $liste = $affectations;
+        
+        usort($liste, function($a, $b) {
+            return $b->getId() <=> $a->getId();
+        });
+
+        if (empty($liste)) {
+            $derniereAffectation = "";
+        }else{
+            $derniereAffectation = $liste[0];
+        }
+        
 
         $debuts = $AffectationRepository->dateCollaborateur($collaborateur);
         $postes = $FonctionRepository->ListeAll();
@@ -88,10 +187,11 @@ class CollaborateurController extends AbstractController
             'affectations' => $affectations,
             'debuts' => $debuts,
             'postes' => $postes,
+            'last' => $derniereAffectation,
         ]);
     }
 
-    #[Route('/detail/filtre/poste/personnel/{id}', name: 'filtre_collaborateur_poste')]
+    #[Route('/personnel/detail/filtre/poste/{id}', name: 'filtre_collaborateur_poste')]
     public function filtrePosteCollaborateur(Request $request, AffectationRepository $AffectationRepository, FonctionRepository $FonctionRepository, Collaborateur $collaborateur): Response
     {
         
@@ -101,6 +201,17 @@ class CollaborateurController extends AbstractController
         else{
             $poste = $request->request->get("filtre");
             $affectations = $AffectationRepository->filtreCollaborateurPoste($collaborateur, $poste);
+            $liste = $AffectationRepository->affectationCollaborateur($collaborateur);
+        
+        usort($liste, function($a, $b) {
+            return $b->getId() <=> $a->getId();
+        });
+
+        if (empty($liste)) {
+            $derniereAffectation = "";
+        }else{
+            $derniereAffectation = $liste[0];
+        }
         }
 
         $debuts = $AffectationRepository->dateCollaborateur($collaborateur);
@@ -111,10 +222,11 @@ class CollaborateurController extends AbstractController
             'affectations' => $affectations,
             'debuts' => $debuts,
             'postes' => $postes,
+            'last' => $derniereAffectation,
         ]);
     }
 
-    #[Route('/detail/filtre/debut/personnel/{id}', name: 'filtre_collaborateur_debut')]
+    #[Route('/personnel/detail/filtre/debut/{id}', name: 'filtre_collaborateur_debut')]
     public function filtreDateCollaborateur(Request $request, AffectationRepository $AffectationRepository, FonctionRepository $FonctionRepository, Collaborateur $collaborateur): Response
     {
         if($request->request->get("filtre") == "All"){
@@ -123,6 +235,18 @@ class CollaborateurController extends AbstractController
         else{
             $debut = $request->request->get("filtre");
             $affectations = $AffectationRepository->filtreCollaborateurDebut($collaborateur, $debut);
+
+            $liste = $AffectationRepository->affectationCollaborateur($collaborateur);
+        
+        usort($liste, function($a, $b) {
+            return $b->getId() <=> $a->getId();
+        });
+
+        if (empty($liste)) {
+            $derniereAffectation = "";
+        }else{
+            $derniereAffectation = $liste[0];
+        }
         }
 
         $debuts = $AffectationRepository->dateCollaborateur($collaborateur);
@@ -132,6 +256,7 @@ class CollaborateurController extends AbstractController
             'affectations' => $affectations,
             'debuts' => $debuts,
             'postes' => $postes,
+            'last' => $derniereAffectation,
         ]);
     }
 }
